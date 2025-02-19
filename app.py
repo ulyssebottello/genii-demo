@@ -12,14 +12,9 @@ st.set_page_config(
 # Title
 st.title("Widget Demo Generator")
 
-# Default widget script
-default_script = """<script 
-    type="module" 
-    project-id="1d2911e7-da17-4fc2-9705-0d45e91c7a9a"
-    template="widget"
-    src="https://genii-script.tolk.ai/lightchat.js"
-    id="lightchat-bot">
-</script>"""
+# Initialize session state for widget script if not exists
+if 'widget_script' not in st.session_state:
+    st.session_state.widget_script = ""
 
 # Function to get base64 from uploaded file
 def get_image_base64_from_upload(uploaded_file):
@@ -59,10 +54,6 @@ def generate_html(image_base64, widget_script):
 </html>
 """
 
-# Initialize widget script at the session state level
-if 'widget_script' not in st.session_state:
-    st.session_state.widget_script = default_script
-
 # Main layout with equal width columns
 col1, col2 = st.columns([1, 1])
 
@@ -96,7 +87,7 @@ with col1:
 with col2:
     st.subheader("Widget Script")
     st.session_state.widget_script = st.text_area(
-        "Edit script if needed:",
-        st.session_state.widget_script,
+        "Paste your widget script here:",
+        value=st.session_state.widget_script,
         height=200
     ) 
